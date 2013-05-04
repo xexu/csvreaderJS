@@ -110,6 +110,8 @@ module("data types (deepEqual tests)",{
 test("string reader", function(){
 	var csv = str_reader.Load(input_string,false);
 	deepEqual(csv.get(0,0), "a");
+	csv = str_reader.Load(input_int,false);
+	deepEqual(csv.get(0,0), "0");
 });
 test("int reader", function(){
 	var csv = int_reader.Load(input_int,false);
