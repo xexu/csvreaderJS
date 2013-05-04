@@ -23,9 +23,9 @@ testint = item === -489; //true!
 ## Documentation
 
 ````javascript
-csvreader.Reader(separator,mode)
+csvreader.Reader(separator,mode).as(type);
 ````
-has default datatype "string", no need for .as("string")
++Defaults on csvreader.Reader() are ` separator : ","`, `mode = "rows"` and `.as("string")` : "string"`. So `csvreader.Reader()` equals to `csvreader.Reader(",","rows").as("string")`.
 
 ````javascript
 csv.get(0,1);

@@ -1,7 +1,7 @@
 csvreader = {};
 csvreader.Reader = function(separator, mode){
 	this.mode = (mode == "cols") ? mode : "rows";
-	this.separator = separator;
+	this.separator = separator || ",";
 	this.type = "string";
 	this.parser = undefined;
 	this.as = function(type){
@@ -39,13 +39,13 @@ csvreader.Reader = function(separator, mode){
 		var csv_body = csv_string.split("\n");
 		if(has_headers){
 			var csv_header = csv_body.splice(0,1);
-			csv_header = csv_header[0].split(separator);
+			csv_header = csv_header[0].split(this.separator);
 			for(var i = 0;i<csv_header.length;i++){
 				headers[csv_header[i]] = i;
 			}
 		}
 		for(var i = 0;i<csv_body.length;i++){
-			var row = csv_body[i].split(separator);
+			var row = csv_body[i].split(this.separator);
 			if(this.parser != undefined){
 				for(var j = 0;j<row.length;j++){
 					row[j] = this.parser(row[j]);
@@ -64,7 +64,7 @@ csvreader.Reader = function(separator, mode){
 		var csv_body = csv_string.split("\n");
 		if(has_headers){
 			var csv_header = csv_body.splice(0,1);
-			csv_header = csv_header[0].split(separator);
+			csv_header = csv_header[0].split(this.separator);
 			for(var i = 0;i<csv_header.length;i++){
 				headers[csv_header[i]] = i;
 			}
@@ -76,7 +76,7 @@ csvreader.Reader = function(separator, mode){
 			csv.push([]);
 		}
 		for(var i = 0;i<csv_body.length;i++){
-			var row = csv_body[i].split(separator);
+			var row = csv_body[i].split(this.separator);
 			if(this.parser != undefined){
 				for(var j = 0;j<cols;j++){
 					csv[j].push(this.parser(row[j]));

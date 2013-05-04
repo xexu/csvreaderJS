@@ -4,8 +4,8 @@ module("load csv",{
 		input_noheaders = "0,-489\n1,-485\n2,-483\n3,-482\n4,-463";
 	}
 });
-test("elements loaded", function(){
-	var reader =  new csvreader.Reader(",","rows");
+test("elements loaded with default params", function(){
+	var reader =  new csvreader.Reader();
 	var csv = reader.Load(input_noheaders,false);
 	var c = 0;
 	for(var i = 0;i<csv.content.length;i++){
