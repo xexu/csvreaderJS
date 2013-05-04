@@ -42,7 +42,6 @@ csv.get("colA",0); //"cols" mode
 ## Future
 - Add support to use `.as(function)` to create custom parsers. (very little changes required).
 - Add support to use  `csv.to("rows")` and  `csv.to("cols")` to change the mode.
-- Write real tests
 - Add an examples file for nodejs.
 
 ## License
