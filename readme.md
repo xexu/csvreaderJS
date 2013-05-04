@@ -39,10 +39,18 @@ csv.get(0,"colA"); //"rows" mode
 csv.get("colA",0); //"cols" mode
 ````
 
+## Nodejs
+To use the reader in nodejs nothing special is needed just require the lib, for example:
+````javascript
+require('./csvreader.js');
+var input = "0,-489\n1,-485";
+var reader =  new csvreader.Reader(",","rows");
+var csv = reader.Load(input,false);
+var result = csv.get(0,1);
+````
 ## Future
 - Add support to use `.as(function)` to create custom parsers. (very little changes required).
 - Add support to use  `csv.to("rows")` and  `csv.to("cols")` to change the mode.
-- Add an examples file for nodejs.
 
 ## License
 As far as it's useful for you use it and modify it to fit your project, if you like it please drop a line to @xexuDj on twitter!
