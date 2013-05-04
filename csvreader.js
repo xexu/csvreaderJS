@@ -110,7 +110,11 @@ csvreader.File = function(mode, content, has_headers, headers){
 		if(index_i == undefined || index_j == undefined){
 			return undefined;
 		}
-		var element = this.content[index_i][j];
-		return element;
+		try{
+			var element = this.content[index_i][index_j];
+			return element;
+		} catch (e){
+			return undefined;
+		}
 	};
 };
