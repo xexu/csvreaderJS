@@ -1,42 +1,45 @@
 csvreader = {};
 csvreader.Reader = function(separator, mode){
-	this.mode = (mode == "cols") ? mode : "rows";
-	this.separator = separator || ",";
-	this.type = "string";
+	this.mode = (mode == 'cols') ? mode : 'rows';
+	this.separator = separator || ',';
+	this.type = 'string';
 	this.parser = undefined;
 	this.as = function(type){
-		switch(type){
-			case "int":
-				this.parser = function(x){
-					if (isNaN(x)){
-						return undefined;
-					} else {
-						return parseInt(x);
+		if(typeof type === 'function') this.parser = type;
+		else if(typeof type === 'string'){
+			switch(type){
+				case 'int':
+					this.parser = function(x){
+						if (isNaN(x)){
+							return undefined;
+						} else {
+							return parseInt(x);
+						}
 					}
-				}
-				break;
-			case "float":
-				this.parser = function(x){
-					if (isNaN(x)){
-						return undefined;
-					} else {
-						return parseFloat(x);
+					break;
+				case 'float':
+					this.parser = function(x){
+						if (isNaN(x)){
+							return undefined;
+						} else {
+							return parseFloat(x);
+						}
 					}
-				}
-				break;
-			case "string":
-			default:
-				this.parser = undefined;
-				break;
+					break;
+				case 'string':
+				default:
+					this.parser = undefined;
+					break;
+			}
 		}
 		return this;
 	}
 	this.LoadOnRows = function(csv_string, has_headers){
 		var headers = {},
 			csv = [],
-			mode = "rows";
+			mode = 'rows';
 		has_headers = has_headers || false;
-		var csv_body = csv_string.split("\n");
+		var csv_body = csv_string.split('\n');
 		if(has_headers){
 			var csv_header = csv_body.splice(0,1);
 			csv_header = csv_header[0].split(this.separator);
@@ -59,9 +62,9 @@ csvreader.Reader = function(separator, mode){
 		var headers = {},
 			csv = [],
 			cols = 0,
-			mode = "cols";
+			mode = 'cols';
 		has_headers = has_headers || false;
-		var csv_body = csv_string.split("\n");
+		var csv_body = csv_string.split('\n');
 		if(has_headers){
 			var csv_header = csv_body.splice(0,1);
 			csv_header = csv_header[0].split(this.separator);
@@ -89,7 +92,7 @@ csvreader.Reader = function(separator, mode){
 		}
 		return new csvreader.File(mode,csv,has_headers,headers);
 	};
-	this.Load = (this.mode == "rows") ? this.LoadOnRows : this.LoadOnCols;
+	this.Load = (this.mode == 'rows') ? this.LoadOnRows : this.LoadOnCols;
 };
 csvreader.File = function(mode, content, has_headers, headers){
 	this.has_headers = has_headers;
@@ -101,9 +104,9 @@ csvreader.File = function(mode, content, has_headers, headers){
 		var index_i = i;
 		var index_j = j;
 		if(this.has_headers){
-			if(this.mode == "rows" && typeof j === "string"){
+			if(this.mode == 'rows' && typeof j === 'string'){
 				index_j = this.headers[j];
-			} else if(this.mode == "cols" && typeof i === "string"){
+			} else if(this.mode == 'cols' && typeof i === 'string'){
 				index_i = this.headers[i];
 			}
 		}

@@ -102,9 +102,14 @@ module("data types (deepEqual tests)",{
 		input_string = "a,b\nc,d\ne,f";
 		input_int = "0,-489\n1,-485\n2,-483";
 		input_float = "0.1,-489.675\n1.11,-485\n2,-483";
+		input_array = "0 0,0 1\n1 0,1 failToNaN";
+
+		array_parser = function(d){return d.split(" ").map(parseFloat);};
+
 		str_reader = new csvreader.Reader(",","rows").as("string");
 		int_reader = new csvreader.Reader(",","rows").as("int");
 		float_reader = new csvreader.Reader(",","rows").as("float");
+		array_reader = new csvreader.Reader(",", "rows").as(array_parser);
 	}
 });
 test("string reader", function(){
@@ -125,4 +130,11 @@ test("float reader", function(){
 	deepEqual(csv.get(0,1), -489.675);
 	deepEqual(csv.get(1,1), -485);
 	deepEqual(csv.get(2,0), 2);
+});
+test("array reader", function(){
+	var csv = array_reader.Load(input_array,false);
+	deepEqual(csv.get(0,0), [0,0]);
+	deepEqual(csv.get(0,1), [0,1]);
+	deepEqual(csv.get(1,0), [1,0]);
+	deepEqual(csv.get(1,1), [1,NaN]);
 });
