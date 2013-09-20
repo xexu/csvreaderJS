@@ -41,11 +41,7 @@ csvreader.Reader = function(separator, mode){
 		has_headers = has_headers || false;
 		var csv_body = csv_string.split('\n');
 		if(has_headers){
-			var csv_header = csv_body.splice(0,1);
-			csv_header = csv_header[0].split(this.separator);
-			for(var i = 0;i<csv_header.length;i++){
-				headers[csv_header[i]] = i;
-			}
+			headers = this.ExtractHeaders(csv_body);
 		}
 		for(var i = 0;i<csv_body.length;i++){
 			var row = csv_body[i].split(this.separator);
@@ -66,12 +62,8 @@ csvreader.Reader = function(separator, mode){
 		has_headers = has_headers || false;
 		var csv_body = csv_string.split('\n');
 		if(has_headers){
-			var csv_header = csv_body.splice(0,1);
-			csv_header = csv_header[0].split(this.separator);
-			for(var i = 0;i<csv_header.length;i++){
-				headers[csv_header[i]] = i;
-			}
-			cols = csv_header.length;
+			headers = this.ExtractHeaders(csv_body);
+			cols = Object.keys(headers).length
 		} else {
 			cols = csv_body[0].length;
 		}
@@ -92,6 +84,15 @@ csvreader.Reader = function(separator, mode){
 		}
 		return new csvreader.File(mode,csv,has_headers,headers);
 	};
+	this.ExtractHeaders = function(csv_body) {
+		var headers = {};
+		var csv_header = csv_body.splice(0,1);
+		csv_header = csv_header[0].split(this.separator);
+		for(var i = 0;i<csv_header.length;i++){
+			headers[csv_header[i]] = i;
+		}
+		return headers;
+	}
 	this.Load = (this.mode == 'rows') ? this.LoadOnRows : this.LoadOnCols;
 };
 csvreader.File = function(mode, content, has_headers, headers){
@@ -120,4 +121,5 @@ csvreader.File = function(mode, content, has_headers, headers){
 			return undefined;
 		}
 	};
+
 };
